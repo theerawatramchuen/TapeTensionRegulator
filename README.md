@@ -8,3 +8,4 @@ https://randomnerdtutorials.com/esp32-dc-motor-l298n-motor-driver-control-speed-
 https://howtomechatronics.com/tutorials/arduino/arduino-dc-motor-control-tutorial-l298n-pwm-h-bridge/
 
 ![alt text](https://github.com/theerawatramchuen/TapeTensionRegulator/blob/master/NodeESP32pinout.png)
+![alt text](https://github.com/theerawatramchuen/TapeTensionRegulator/blob/master/NodeESP32-Schemetic.png)
