@@ -9,3 +9,7 @@ https://howtomechatronics.com/tutorials/arduino/arduino-dc-motor-control-tutoria
 
 ![alt text](https://github.com/theerawatramchuen/TapeTensionRegulator/blob/master/NodeESP32pinout.png)
 ![alt text](https://github.com/theerawatramchuen/TapeTensionRegulator/blob/master/NodeESP32-Schemetic.png)
+
+# ESP32 and I2C LCD example
+http://www.esp32learning.com/code/esp32-and-i2c-lcd-example.php
+![alt text](https://i0.wp.com/www.esp32learning.com/wp-content/uploads/2017/12/i2clcd.jpg?w=342)
