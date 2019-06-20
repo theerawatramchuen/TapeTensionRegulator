@@ -1,9 +1,5 @@
 #include <Arduino.h>
 #include <EEPROM.h>
-#include <Wire.h>
-#include <LiquidCrystal_I2C.h>
-
-LiquidCrystal_I2C lcd(0x3F,16,2); // set the LCD address to 0x3F for a 16 chars and 2 line display
 
 #ifndef ESP32
 #pragma message(THIS CODE IS FOR ESP32 ONLY!)
@@ -36,15 +32,6 @@ void setup() {
   ledcAttachPin(LED_PIN, VOUT_CHANNEL_0);
   m = 0.1;  // y = m*x + c;          
   c = 0.0;   // y = m*x + c;
-
-  lcd.init(); // initialize the lcd
-  lcd.init();
-  // Print a message to the LCD.
-  lcd.backlight();
-  lcd.setCursor(0,0);
-  lcd.print("Hello world");
-  lcd.setCursor(1,0);
-  lcd.print("ESP32 I2C LCD");
 }
 
 void loop() {
