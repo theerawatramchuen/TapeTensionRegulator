@@ -35,7 +35,7 @@ void setup() {
 void loop() {
   float sensorValue;
   m = m_Gain_Knob(100);   //m = 0-2  // y = m*x + c;          
-  c = c_OffSet_Knob(100); //c = 0-10;   // y = m*x + c;
+  c = c_OffSet_Knob(100); //c = +/-5 ;   // y = m*x + c;
   sensorValue = TapeRollDia(100);  // ADC0
   y = m*sensorValue + c;   // y = m*x + c;  , sensorValue is x
   if ( y > 4095) y = 4095;
@@ -43,9 +43,9 @@ void loop() {
   y = y/4096 * 100.0;
   ledcAnalogWrite(VOUT_CHANNEL_0, y);
   Serial.print("ADC0 : ");Serial.print(sensorValue);
-  Serial.print("  Vout%: ");Serial.print(y,3);
-  Serial.print("  Gain : ");Serial.print(m,3);
-  Serial.print("  Offse: ");Serial.println(c,3);
+  Serial.print("  Vout(0-100%): ");Serial.print(y,3);
+  Serial.print("  Gain(0-2): ");Serial.print(m,3);
+  Serial.print("  Offse(+/-5): ");Serial.println(c,3);
   delay(1);  
 }
 
