@@ -30,17 +30,57 @@ void setup() {
   Serial.begin(115200);
   ledcSetup(VOUT_CHANNEL_0, LEDC_BASE_FREQ, LEDC_TIMER_12_BIT);
   ledcAttachPin(LED_PIN, VOUT_CHANNEL_0);
-  m = 0.1;  // y = m*x + c;          
-  c = 0.0;   // y = m*x + c;
 }
 
 void loop() {
-  int sensorValue;
-  sensorValue = analogRead(A0);
+  float sensorValue;
+  m = m_Gain_Knob(100);   //m = 0-2  // y = m*x + c;          
+  c = c_OffSet_Knob(100); //c = 0-10;   // y = m*x + c;
+  sensorValue = TapeRollDia(100);  // ADC0
   y = m*sensorValue + c;   // y = m*x + c;  , sensorValue is x
   if ( y > 4095) y = 4095;
   if ( y < 0) y = 0;
+  y = y/4096 * 100.0;
   ledcAnalogWrite(VOUT_CHANNEL_0, y);
-  Serial.print(sensorValue);Serial.print("   ");Serial.println(y,3);
+  Serial.print("ADC0 : ");Serial.print(sensorValue);
+  Serial.print("  Vout%: ");Serial.print(y,3);
+  Serial.print("  Gain : ");Serial.print(m,3);
+  Serial.print("  Offse: ");Serial.println(c,3);
   delay(1);  
+}
+
+float TapeRollDia (int sampl) {
+  int value = 0;
+  int sum_value = 0;
+  float avg_sampl = 0;
+  for (int i = 0; i <= sampl; i++) {
+    value = analogRead(A0);          //ADC0
+    sum_value = sum_value + value;
+  }
+  avg_sampl = sum_value/sampl;
+  return avg_sampl;
+}
+
+float m_Gain_Knob (int sampl) {
+  int value = 0;
+  int sum_value = 0;
+  float avg_sampl = 0;
+  for (int i = 0; i <= sampl; i++) {
+    value = analogRead(A0);          //ADC3
+    sum_value = sum_value + value;
+  }
+  avg_sampl = sum_value/sampl;
+  return avg_sampl/4096.0 * 2.0;   //Gain = 0-2
+}
+
+float c_OffSet_Knob (int sampl) {
+  int value = 0;
+  int sum_value = 0;
+  float avg_sampl = 0;
+  for (int i = 0; i <= sampl; i++) {
+    value = analogRead(A0);          //ADC6
+    sum_value = sum_value + value;
+  }
+  avg_sampl = sum_value/sampl;
+  return (avg_sampl/4096.0 * 10.0) - 5;  //Offset = +/- 5
 }
