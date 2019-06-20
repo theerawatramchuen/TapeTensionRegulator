@@ -4,6 +4,7 @@ Arduino Project
 # ESP32 with DC Motor and L298N Motor Driver – Control Speed and Direction
 https://randomnerdtutorials.com/esp32-dc-motor-l298n-motor-driver-control-speed-direction/
 ![alt text](https://i2.wp.com/randomnerdtutorials.com/wp-content/uploads/2018/05/L298N-label.jpg?w=750&ssl=1)
+![alt text](https://i1.wp.com/randomnerdtutorials.com/wp-content/uploads/2018/05/ESP32_1_DC_Motor_bb.png?w=1113&ssl=1)
 
 # Arduino DC Motor Control Tutorial – L298N | PWM | H-Bridge
 https://howtomechatronics.com/tutorials/arduino/arduino-dc-motor-control-tutorial-l298n-pwm-h-bridge/
