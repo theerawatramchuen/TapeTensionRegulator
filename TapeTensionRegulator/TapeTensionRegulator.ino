@@ -10,26 +10,34 @@ float y,m,c;  // y = m*x + c;
 
 /*
  */
+// Motor A
+int motor1Pin1 = 27; 
+int motor1Pin2 = 26; 
+int enable1Pin = 5; 
 
-#define VOUT_CHANNEL_0     0   // use first channel of 16 channels (started from zero)
-#define LEDC_TIMER_12_BIT  12   // use 12 bit precission for LEDC timer
-#define LEDC_BASE_FREQ     5000  // use 5000 Hz as a LEDC base frequency
-#define LED_PIN            5 //Voutput --> GPIO5 // fade LED PIN (replace with LED_BUILTIN constant for built-in LED)
-
-// Arduino like analogWrite
-// value has to be between 0 and valueMax
-void ledcAnalogWrite(uint8_t channel, uint32_t value, uint32_t valueMax = 4095) {
-  uint32_t duty = (4095 / valueMax) * min(value, valueMax);   // calculate duty, 4095 from 2 ^ 12 - 1
-  ledcWrite(channel, duty);    // write duty to LEDC
-}
+// Setting PWM properties
+const int freq = 30000;
+const int pwmChannel = 0;
+const int resolution = 8;
+int dutyCycle = 200;
 
 /*
 */
 
 void setup() {
+  // sets the pins as outputs:
+  pinMode(motor1Pin1, OUTPUT);
+  pinMode(motor1Pin2, OUTPUT);
+  pinMode(enable1Pin, OUTPUT);
+  
+  // configure LED PWM functionalitites
+  ledcSetup(pwmChannel, freq, resolution);
+  
+  // attach the channel to the GPIO to be controlled
+  ledcAttachPin(enable1Pin, pwmChannel);
+
   Serial.begin(115200);
-  ledcSetup(VOUT_CHANNEL_0, LEDC_BASE_FREQ, LEDC_TIMER_12_BIT);
-  ledcAttachPin(LED_PIN, VOUT_CHANNEL_0);
+
 }
 
 void loop() {
@@ -40,10 +48,10 @@ void loop() {
   y = m*sensorValue + c;   // y = m*x + c;  , sensorValue is x
   if ( y > 4095) y = 4095;
   if ( y < 0) y = 0;
-  y = y/4096 * 100.0;
-  ledcAnalogWrite(VOUT_CHANNEL_0, y);
+  dutyCycle = y/4095 * 256;
+  ledcWrite(pwmChannel, dutyCycle);
   Serial.print("ADC0 : ");Serial.print(sensorValue);
-  Serial.print("  Vout(0-100%): ");Serial.print(y,3);
+  Serial.print("  Vout(0-100%): ");Serial.print(round(dutyCycle/2.56));
   Serial.print("  Gain(0-2): ");Serial.print(m,3);
   Serial.print("  Offse(+/-5): ");Serial.println(c,3);
   delay(1);  
@@ -66,11 +74,12 @@ float m_Gain_Knob (int sampl) {
   int sum_value = 0;
   float avg_sampl = 0;
   for (int i = 0; i <= sampl; i++) {
-    value = analogRead(A0);          //ADC3
+    value = analogRead(A3);          //ADC3
     sum_value = sum_value + value;
   }
   avg_sampl = sum_value/sampl;
-  return avg_sampl/4096.0 * 2.0;   //Gain = 0-2
+  return 1;
+//  return avg_sampl/4096.0 * 2.0;   //Gain = 0-2
 }
 
 float c_OffSet_Knob (int sampl) {
@@ -78,9 +87,10 @@ float c_OffSet_Knob (int sampl) {
   int sum_value = 0;
   float avg_sampl = 0;
   for (int i = 0; i <= sampl; i++) {
-    value = analogRead(A0);          //ADC6
+    value = analogRead(A6);          //ADC6
     sum_value = sum_value + value;
   }
   avg_sampl = sum_value/sampl;
-  return (avg_sampl/4096.0 * 10.0) - 5;  //Offset = +/- 5
+  return 0;
+//  return (avg_sampl/4096.0 * 10.0) - 5;  //Offset = +/- 5
 }
