@@ -6,7 +6,7 @@
 #error Select ESP32 board.
 #endif
 
-float y,m,c;  // y = m*x + c;
+float y,m,c,Vin;  // y = m*x + c;
 
 /*
  */
@@ -50,11 +50,14 @@ void loop() {
   if ( y < 0) y = 0;
   dutyCycle = y/4095 * 256;
   ledcWrite(pwmChannel, dutyCycle);
+  Vin = sensorValue/409.6;
   Serial.print("ADC0 : ");Serial.print(sensorValue);
+  Serial.print("  Vin(0-10V): ");Serial.print(Vin);  //Vin (ADC0/4096)*10
   Serial.print("  Vout(0-100%): ");Serial.print(round(dutyCycle/2.56));
   Serial.print("  Gain(0-2): ");Serial.print(m,3);
-  Serial.print("  Offse(+/-5): ");Serial.println(c,3);
+  Serial.print("  Offse(+/-250): ");Serial.println(round(c));
   delay(1);  
+  digitalWrite(motor1Pin1, HIGH);
 }
 
 float TapeRollDia (int sampl) {
@@ -78,8 +81,8 @@ float m_Gain_Knob (int sampl) {
     sum_value = sum_value + value;
   }
   avg_sampl = sum_value/sampl;
-  return 1;
-//  return avg_sampl/4096.0 * 2.0;   //Gain = 0-2
+//  return 1;
+  return avg_sampl/4096.0 * 2.0;   //Gain = 0-2
 }
 
 float c_OffSet_Knob (int sampl) {
@@ -91,6 +94,6 @@ float c_OffSet_Knob (int sampl) {
     sum_value = sum_value + value;
   }
   avg_sampl = sum_value/sampl;
-  return 0;
-//  return (avg_sampl/4096.0 * 10.0) - 5;  //Offset = +/- 5
+//  return 0;
+  return (avg_sampl/4096.0 * 500.0) - 250;  //Offset = +/- 250
 }
