@@ -1,6 +1,7 @@
-# TapeTensionRegulator
-Arduino Project
+# Tape Roll Tension Regulator
+![alt text](https://github.com/theerawatramchuen/TapeTensionRegulator/blob/master/schemetic.jpg)
 
+# Resource Link
 # ESP32 with DC Motor and L298N Motor Driver – Control Speed and Direction
 https://randomnerdtutorials.com/esp32-dc-motor-l298n-motor-driver-control-speed-direction/
 ![alt text](https://i2.wp.com/randomnerdtutorials.com/wp-content/uploads/2018/05/L298N-label.jpg?w=750&ssl=1)
