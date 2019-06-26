@@ -1,4 +1,4 @@
-# Tape Roll Tension Regulator
+# Tape Tension Regulator
 ![alt text](https://github.com/theerawatramchuen/TapeTensionRegulator/blob/master/schemetic.jpg)
 
 # Resource Link
